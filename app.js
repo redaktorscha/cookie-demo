@@ -77,15 +77,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
             }
            
         })
-
-        .get('/wordpress/', (req, res) => {           
-            res.redirect('https://demowp.redaktorscha.xyz/wordpress/');
-        })
-
-        .get('/wordpress/wp-json/wp/v2/posts/1', (req, res) => {
-            res.redirect('https://demowp.redaktorscha.xyz/wordpress/wp-json/wp/v2/posts/1');
-        })
-
+     
         .all(/./, r => r.res.send(LOGINNAME))
 
         .use(finalHandler)
