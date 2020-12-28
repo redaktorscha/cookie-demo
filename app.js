@@ -64,8 +64,9 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
                     const pugTemplate = await getClientRequest(address2, http).catch((err) => {
                         throw new Error(err);
                     });
-                   
+                                       
                     writeFileSync('./views/template.pug', pugTemplate);
+                    
                     return res.render('template', { random2, random3 });
 
                 } catch (err) {
@@ -77,14 +78,13 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
            
         })
 
-        .get('/wordpress/', (req, res) => {
-            res.redirect('/wp');
+        .get('/wordpress/', (req, res) => {           
+            res.redirect('https://demowp.redaktorscha.xyz/wordpress/');
         })
 
-        .get('/wp/', r => {
-            r.res.send('<h1>Wordpress dummy</h1>')
+        .get('/wordpress/wp-json/wp/v2/posts/1', (req, res) => {
+            res.redirect('https://demowp.redaktorscha.xyz/wordpress/wp-json/wp/v2/posts/1');
         })
-
 
         .all(/./, r => r.res.send(LOGINNAME))
 
