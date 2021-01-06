@@ -1,4 +1,4 @@
-export default (express, bodyParser, createReadStream, writeFileSync, crypto, http, cors, getClientRequest, finalHandler, contentType) => {
+export default (express, bodyParser, createReadStream, writeFileSync, crypto, http, cors, getClientRequest, finalHandler, contentType, puppeteer) => {
 
     const {
         LOGINNAME
@@ -36,8 +36,48 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
         })
 
         .get('/sha1/:input', r => {
-            const hash = crypto.createHash('sha1').update(r.params.input).digest('hex');
+            const hash = crypto
+                .createHash('sha1')
+                .update(r.params.input)
+                .digest('hex');
             r.res.send(hash);
+        })
+
+        .get('/sha1test/:input', async r => {
+
+            const URL = 'https://demopuppy.redaktorscha.xyz/';
+
+            const shasum = crypto
+                .createHash('sha1')
+                .update(r.params.input)
+                .digest('hex');
+
+            try {
+                const browser = await puppeteer.launch({
+                    headless: true,
+                    args: ['--no-sandbox']
+                });
+
+
+                const page = await browser.newPage();
+                await page.goto(URL);
+                await page.waitForSelector('#inp');
+
+                const text = 'hello';
+                page.evaluate(text => document.querySelector('#inp').value = text, text); //context
+                await page.waitForSelector('#btn');
+                await page.click('#btn');
+
+
+                const newVal = await page.$eval('#inp', input => input.value);
+                //console.log(newVal);
+                browser.close();
+                r.res.send(shasum === newVal);
+                //r.res.json({realSHA: shasum, gotSHA: newVal})
+            } catch (err) {
+                console.log(err.stack);
+            }
+
         })
 
         .all('/req/', async (req, res) => {
@@ -58,7 +98,10 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
         })
 
         .all('/render/', async (req, res) => {
-            const { random2, random3 } = req.body;
+            const {
+                random2,
+                random3
+            } = req.body;
             const address2 = req.query.addr;
             res.locals.random2 = random2;
             res.locals.random3 = random3;
@@ -68,10 +111,13 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
                     const pugTemplate = await getClientRequest(address2, http).catch((err) => {
                         throw new Error(err);
                     });
-                                       
+
                     writeFileSync('./views/template.pug', pugTemplate);
-                    
-                    return res.render('template', { random2, random3 });
+
+                    return res.render('template', {
+                        random2,
+                        random3
+                    });
 
                 } catch (err) {
                     return res.send('not ok');
@@ -79,7 +125,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
             } else {
                 res.send('sorry, no data provided');
             }
-           
+
         })
 
         .all(/./, r => r.res.send(LOGINNAME || 'mariianasonkina'))

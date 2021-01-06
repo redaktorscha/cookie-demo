@@ -14,6 +14,8 @@ import getClientRequest from './getClientRequest.js';
 import finalHandler from './finalHandler.js';
 import contentType from './contentType.js';
 
+import puppeteer from 'puppeteer';
+
 
 dot.config({
     path: './.env'
@@ -22,7 +24,7 @@ const {
     URL
 } = process.env;
 
-const app = appSrc(express, bodyParser, createReadStream, writeFileSync, crypto, http, cors, getClientRequest, finalHandler, contentType);
+const app = appSrc(express, bodyParser, createReadStream, writeFileSync, crypto, http, cors, getClientRequest, finalHandler, contentType, puppeteer);
 
 const PORT = process.env.PORT || 3000;
 
