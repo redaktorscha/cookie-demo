@@ -64,8 +64,9 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
                     const pugTemplate = await getClientRequest(address2, http).catch((err) => {
                         throw new Error(err);
                     });
-                   
+                                       
                     writeFileSync('./views/template.pug', pugTemplate);
+                    
                     return res.render('template', { random2, random3 });
 
                 } catch (err) {
@@ -76,7 +77,6 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
             }
            
         })
-
 
         .all(/./, r => r.res.send(LOGINNAME))
 
