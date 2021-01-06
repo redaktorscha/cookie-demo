@@ -6,10 +6,11 @@
     "license": "MIT",
     "scripts": {
         "test": "node --experimental-vm-modules node_modules/.bin/jest",
-        "start": "node index.js"
+        "start": "node index.js",
+        "startn": "n run 14.8.0 ."
     },
     "engines": {
-        "node": "14.8.0"
+        "node": ">=14.8.0"
     },
     "dependencies": {
         "dotenv": "^8.2.0",
