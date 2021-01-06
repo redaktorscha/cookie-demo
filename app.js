@@ -26,6 +26,10 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
             r.res.send(LOGINNAME || 'mariianasonkina');
         })
 
+        .get('/hello/', r => {
+            r.res.send('hello');
+        })
+
         .get('/code/', r => {
             createReadStream(
                 import.meta.url.substring(7)).pipe(r.res);

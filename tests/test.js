@@ -38,6 +38,17 @@ import contentType from '../contentType.js';
         })
     });
 
+    describe('sha1 endpoint', () => {
+        const randCase = String(Math.random());
+        const shasum = crypto.createHash('sha1');
+        shasum.update(randCase);
+        const correctRes = shasum.digest('hex'); 
+        it('is expected to return correctRes', async () => {
+            const res = await server.get(`/sha1/${randCase}`);
+            expect(res.text).toEqual(correctRes);
+        });       
+    });
+
 
 
 })()
