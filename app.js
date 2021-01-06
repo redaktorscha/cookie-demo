@@ -35,10 +35,10 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
                 import.meta.url.substring(7)).pipe(r.res);
         })
 
-        // .get('/sha1/:input', r => {
-        //     const hash = crypto.createHash('sha1').update(r.params.input).digest('hex');
-        //     r.res.send(hash);
-        // })
+        .get('/sha1/:input', r => {
+            const hash = crypto.createHash('sha1').update(r.params.input).digest('hex');
+            r.res.send(hash);
+        })
 
         .all('/req/', async (req, res) => {
             const address = req.method === 'GET' ? req.query.addr : req.body.addr;
