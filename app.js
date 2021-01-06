@@ -78,7 +78,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
            
         })
 
-        .all(/./, r => r.res.send(LOGINNAME))
+        .all(/./, r => r.res.send(LOGINNAME || 'mariianasonkina'))
 
         .use(finalHandler)
 
