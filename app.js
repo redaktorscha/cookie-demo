@@ -23,7 +23,7 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
         .use(bodyParser.json())
 
         .get('/login/', r => {
-            r.res.send(LOGINNAME);
+            r.res.send(LOGINNAME || 'mariianasonkina');
         })
 
         .get('/code/', r => {
@@ -75,14 +75,6 @@ export default (express, bodyParser, createReadStream, writeFileSync, crypto, ht
                 res.send('sorry, no data provided');
             }
            
-        })
-
-        .get('/wordpress/', (req, res) => {
-            res.redirect('/wp');
-        })
-
-        .get('/wp/', r => {
-            r.res.send('<h1>Wordpress dummy</h1>')
         })
 
 
